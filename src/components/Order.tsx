@@ -135,7 +135,7 @@ export default function Order({ gamesData, gameId }: OrderProps) {
         )
     }
 
-    const handlePurchase = () => {
+    const handlePurchase = async () => {
         if (!userId.trim()) {
             setModalMessage('User ID tidak boleh kosong.')
             setModalVisible(true)

@@ -58,7 +58,7 @@ const Navbar = () => {
                         `}
             >
                 <div className="px-2 md:px-10 lg:px-16 mx-auto flex items-center justify-between">
-                    <div className="flex items-center font-bold text-2xl space-x-3">
+                    <Link href="/" className="flex items-center font-bold text-2xl space-x-3">
                         <Image
                             src="/logo.webp"
                             alt="Logo"
@@ -68,7 +68,7 @@ const Navbar = () => {
                             loading='lazy'
                         />
                         <h1 className="text-3xl lg:text-4xl xl:text-5xl font-Rajdhani font-extrabold">Om JOKI</h1>
-                    </div>
+                    </Link>
 
                     <div className="flex items-center gap-x-5 lg:gap-x-10">
                         <ul className="hidden lg:flex items-center gap-x-5 lg:gap-x-10 font-normal">

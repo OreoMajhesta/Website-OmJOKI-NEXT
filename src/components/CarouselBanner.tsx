@@ -9,10 +9,10 @@ import Image from 'next/image'
 
 const slides = [
     {
-        image: '/banner1.webp',
+        image: '/banner2.webp',
     },
     {
-        image: '/banner2.webp',
+        image: '/banner1.webp',
     },
     {
         image: '/banner3.webp',
@@ -45,11 +45,9 @@ const CarouselBanner = () => {
                                 src={slide.image}
                                 alt={`Slide ${index + 1}`}
                                 className="h-full w-full object-cover"
-                                width={900}
-                                height={900}
+                                width={3456}
+                                height={1728}
                                 loading='lazy'
-                                priority={index === 0}
-                                sizes="(max-width: 600px) 300px, (max-width: 900px) 600px, 900px"
                             />
                         </SwiperSlide>
                     ))}
