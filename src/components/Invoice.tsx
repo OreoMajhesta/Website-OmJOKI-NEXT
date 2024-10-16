@@ -6,6 +6,24 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { useTheme } from '@/app/functions/ThemeContext'
 import Image from 'next/image'
 
+interface Item {
+    item: string;
+    price: string;
+}
+
+interface PaymentMethodOption {
+    name: string;
+    fee: number;
+    image: string;
+}
+
+interface PaymentMethod {
+    id: string;
+    name: string;
+    description: string;
+    options: PaymentMethodOption[];
+}
+
 const Invoice = () => {
     const searchParams = useSearchParams()
     const { isDarkTheme } = useTheme()
@@ -15,9 +33,9 @@ const Invoice = () => {
     const server = searchParams.get('server') || ''
     const password = searchParams.get('password') || ''
     const note = searchParams.get('note') || ''
-    const selectedItems = JSON.parse(searchParams.get('selectedItems') || '[]')
+    const selectedItems: Item[] = JSON.parse(searchParams.get('selectedItems') || '[]')
     const totalPrice = searchParams.get('totalPrice') || '0'
-    const selectedMethods = JSON.parse(searchParams.get('selectedMethods') || '[]')
+    const selectedMethods: string[] = JSON.parse(searchParams.get('selectedMethods') || '[]')
     const selectedOption = searchParams.get('selectedOption') || ''
     const totalPriceWithFee = searchParams.get('totalPriceWithFee') || '0'
 
@@ -30,23 +48,23 @@ const Invoice = () => {
             Note: "${note}"
             ========================================
             Paket yang Dipilih:
-            ${selectedItems.map((item: any) => {
-            const price = parseInt(item.price.replace(/\D/g, ''), 10)
-            return `- ${item.item}: Rp ${price.toLocaleString('id-ID')}`
-        }).join('\n')}
+            ${selectedItems.map((item: Item) => {
+                const price = parseInt(item.price.replace(/\D/g, ''), 10)
+                return `- ${item.item}: Rp ${price.toLocaleString('id-ID')}`
+            }).join('\n')}
             ========================================
             Metode Pembayaran:
             ${selectedMethods.map((methodId: string) => {
-            const method = paymentMethods.find((method: any) => method.id === methodId)
-            return `${method?.name} - "${method?.description}"`
-        }).join('\n')}
+                const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
+                return `${method?.name} - "${method?.description}"`
+            }).join('\n')}
             ========================================
             Penyedia Layanan:
             ${selectedMethods.map((methodId: string) => {
-            const method = paymentMethods.find((method: any) => method.id === methodId)
-            const option = method?.options.find(opt => opt.name === selectedOption)
-            return option ? `${option.name} - Biaya admin ${option.fee}%` : ''
-        }).join('\n')}
+                const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
+                const option = method?.options.find(opt => opt.name === selectedOption)
+                return option ? `${option.name} - Biaya admin ${option.fee}%` : ''
+            }).join('\n')}
             ========================================
             Total: Rp ${parseInt(totalPrice).toLocaleString('id-ID')}
             Total dengan biaya admin: Rp ${parseInt(totalPriceWithFee).toLocaleString('id-ID')}`.replace(/^\s+/gm, '')
@@ -70,7 +88,7 @@ const Invoice = () => {
                     <h2 className="font-semibold">Paket yang Dipilih: </h2>
                     {selectedItems && selectedItems.length > 0 ? (
                         <ul className="list-disc pl-5">
-                            {selectedItems.map((item: any, index: number) => (
+                            {selectedItems.map((item: Item, index: number) => (
                                 <li key={index}>
                                     {item.item}: {item.price}
                                 </li>
@@ -84,7 +102,7 @@ const Invoice = () => {
                     {selectedMethods && selectedMethods.length > 0 ? (
                         <ul className="list-disc pl-5">
                             {selectedMethods.map((methodId: string) => {
-                                const method = paymentMethods.find((method: any) => method.id === methodId)
+                                const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
                                 if (method && method.options.some(option => option.name === selectedOption)) {
                                     return (
                                         <li key={method.id}>
@@ -94,7 +112,7 @@ const Invoice = () => {
                                             <ul className="list-disc pl-5">
                                                 {method.options
                                                     .filter(option => option.name === selectedOption)
-                                                    .map((option: any) => (
+                                                    .map((option: PaymentMethodOption) => (
                                                         <li key={option.name} className="flex items-center">
                                                             <Image src={option.image} alt={option.name} width={50} height={50} className="mr-2" />
                                                             <span>{option.name} - Biaya admin {option.fee}%</span>
