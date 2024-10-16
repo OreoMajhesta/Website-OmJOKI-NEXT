@@ -127,4 +127,4 @@ const CarouselBanner = () => {
     )
 }
 
-export default CarouselBanner
+export default CarouselBanner;
