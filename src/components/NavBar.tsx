@@ -65,6 +65,7 @@ const Navbar = () => {
                             className="h-8 lg:h-10 xl:h-12 w-auto cursor-pointer"
                             width={500}
                             height={500}
+                            loading='lazy'
                         />
                         <h1 className="text-3xl lg:text-4xl xl:text-5xl font-Rajdhani font-extrabold">Om JOKI</h1>
                     </div>

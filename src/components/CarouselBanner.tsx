@@ -22,7 +22,7 @@ const slides = [
 const CarouselBanner = () => {
     return (
         <section>
-            <div className="relative container mx-auto h-auto overflow-hidden shadow-xl Hp:rounded-3xl">
+            <div className="relative container mx-auto h-auto overflow-hidden shadow-xl rounded-3xl">
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     navigation={{
@@ -44,87 +44,90 @@ const CarouselBanner = () => {
                             <Image
                                 src={slide.image}
                                 alt={`Slide ${index + 1}`}
-                                className="h-full w-full object-contain"
-                                width={1300}
-                                height={1300}
+                                className="h-full w-full object-cover"
+                                width={900}
+                                height={900}
+                                loading='lazy'
+                                priority={index === 0}
+                                sizes="(max-width: 600px) 300px, (max-width: 900px) 600px, 900px"
                             />
                         </SwiperSlide>
                     ))}
 
                     {/* Navigation Buttons */}
-                    <button className="hidden lg:flex swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white p-3 rounded-md font-bold cursor-pointer md:p-8">
+                    <button className="hidden lg:flex swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white p-3 rounded-md font-bold cursor-pointer md:p-8" aria-label='Previous Button'>
                     </button>
-                    <button className="hidden lg:flex swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white p-3 rounded-md font-bold cursor-pointer md:p-8">
+                    <button className="hidden lg:flex swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white p-3 rounded-md font-bold cursor-pointer md:p-8" aria-label='Next Button'>
                     </button>
                 </Swiper>
 
                 {/* Custom styles */}
                 <style jsx global>{`
-          .swiper-button-next,
-          .swiper-button-prev {
-            color: white !important;
-          }
+                    .swiper-button-next,
+                    .swiper-button-prev {
+                        color: white !important;
+                    }
 
-          .swiper-pagination-bullet {
-            width: 1.5rem;
-            height: 1.5rem;
-            background-color: gray;
-            opacity: 1;
-            transition: all 0.5s ease-in-out; 
-          }
+                    .swiper-pagination-bullet {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        background-color: gray;
+                        opacity: 1;
+                        transition: all 0.5s ease-in-out; 
+                    }
 
-          .swiper-pagination-bullet-active {
-            background-color: rgb(14 165 233);
-            width: 4rem;
-            height: 1.5rem;
-            border-radius: 9999px; 
-            transition: all 0.5s ease-in-out;
-          }
-              
-          .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-          .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-            margin: 0 12px;
-          }
+                    .swiper-pagination-bullet-active {
+                        background-color: rgb(14 165 233);
+                        width: 4rem;
+                        height: 1.5rem;
+                        border-radius: 9999px; 
+                        transition: all 0.5s ease-in-out;
+                    }
 
-          /* Responsive styles */
-          @media (max-width: 768px) {
-            .swiper-button-next,
-            .swiper-button-prev {
-              display: none !important;
-            }
+                    .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+                    .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+                        margin: 0 12px;
+                    }
 
-            .swiper-pagination-bullet {
-              width: 1rem;
-              height: 1rem;
-            }
-            .swiper-pagination-bullet-active {
-              width: 2rem;
-              height: 1rem;
-            }
-            .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-            .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-              margin: 0 8px;
-            }
-          }
+                    /* Responsive styles */
+                    @media (max-width: 768px) {
+                        .swiper-button-next,
+                        .swiper-button-prev {
+                            display: none !important;
+                        }
 
-          @media (max-width: 480px) {
-            .swiper-pagination-bullet {
-              width: 0.75rem;
-              height: 0.75rem;
-            }
-            .swiper-pagination-bullet-active {
-              width: 1.5rem;
-              height: 0.75rem;
-            }
-            .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-            .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-              margin: 0 5px;
-            }
-          }
-        `}</style>
+                        .swiper-pagination-bullet {
+                            width: 1rem;
+                            height: 1rem;
+                        }
+                        .swiper-pagination-bullet-active {
+                            width: 2rem;
+                            height: 1rem;
+                        }
+                        .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+                        .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+                            margin: 0 8px;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .swiper-pagination-bullet {
+                            width: 0.75rem;
+                            height: 0.75rem;
+                        }
+                        .swiper-pagination-bullet-active {
+                            width: 1.5rem;
+                            height: 0.75rem;
+                        }
+                        .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+                        .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+                            margin: 0 5px;
+                        }
+                    }
+                `}</style>
             </div>
         </section>
     )
 }
 
-export default CarouselBanner;
+export default CarouselBanner

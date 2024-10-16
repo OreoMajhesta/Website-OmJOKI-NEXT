@@ -6,24 +6,6 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { useTheme } from '@/app/functions/ThemeContext'
 import Image from 'next/image'
 
-interface Item {
-    item: string;
-    price: string;
-}
-
-interface PaymentMethodOption {
-    name: string;
-    fee: number;
-    image: string;
-}
-
-interface PaymentMethod {
-    id: string;
-    name: string;
-    description: string;
-    options: PaymentMethodOption[];
-}
-
 const Invoice = () => {
     const searchParams = useSearchParams()
     const { isDarkTheme } = useTheme()
@@ -33,11 +15,27 @@ const Invoice = () => {
     const server = searchParams.get('server') || ''
     const password = searchParams.get('password') || ''
     const note = searchParams.get('note') || ''
-    const selectedItems: Item[] = JSON.parse(searchParams.get('selectedItems') || '[]')
+    const selectedItems = JSON.parse(searchParams.get('selectedItems') || '[]')
     const totalPrice = searchParams.get('totalPrice') || '0'
-    const selectedMethods: string[] = JSON.parse(searchParams.get('selectedMethods') || '[]')
+    const selectedMethods = JSON.parse(searchParams.get('selectedMethods') || '[]')
     const selectedOption = searchParams.get('selectedOption') || ''
     const totalPriceWithFee = searchParams.get('totalPriceWithFee') || '0'
+
+    interface Item {
+        item: string
+        price: string
+    }
+
+    interface PaymentMethod {
+        id: string
+        name: string
+        description: string
+        options: {
+            name: string
+            fee: number
+            image: string
+        }[]
+    }
 
     const sendToWhatsApp = () => {
         const message = `
@@ -49,22 +47,22 @@ const Invoice = () => {
             ========================================
             Paket yang Dipilih:
             ${selectedItems.map((item: Item) => {
-                const price = parseInt(item.price.replace(/\D/g, ''), 10)
-                return `- ${item.item}: Rp ${price.toLocaleString('id-ID')}`
-            }).join('\n')}
+            const price = parseInt(item.price.replace(/\D/g, ''), 10)
+            return `- ${item.item}: Rp ${price.toLocaleString('id-ID')}`
+        }).join('\n')}
             ========================================
             Metode Pembayaran:
             ${selectedMethods.map((methodId: string) => {
-                const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
-                return `${method?.name} - "${method?.description}"`
-            }).join('\n')}
+            const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
+            return `${method?.name} - "${method?.description}"`
+        }).join('\n')}
             ========================================
             Penyedia Layanan:
             ${selectedMethods.map((methodId: string) => {
-                const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
-                const option = method?.options.find(opt => opt.name === selectedOption)
-                return option ? `${option.name} - Biaya admin ${option.fee}%` : ''
-            }).join('\n')}
+            const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
+            const option = method?.options.find(opt => opt.name === selectedOption)
+            return option ? `${option.name} - Biaya admin ${option.fee}%` : ''
+        }).join('\n')}
             ========================================
             Total: Rp ${parseInt(totalPrice).toLocaleString('id-ID')}
             Total dengan biaya admin: Rp ${parseInt(totalPriceWithFee).toLocaleString('id-ID')}`.replace(/^\s+/gm, '')
@@ -112,7 +110,7 @@ const Invoice = () => {
                                             <ul className="list-disc pl-5">
                                                 {method.options
                                                     .filter(option => option.name === selectedOption)
-                                                    .map((option: PaymentMethodOption) => (
+                                                    .map(option => (
                                                         <li key={option.name} className="flex items-center">
                                                             <Image src={option.image} alt={option.name} width={50} height={50} className="mr-2" />
                                                             <span>{option.name} - Biaya admin {option.fee}%</span>
@@ -144,4 +142,4 @@ const Invoice = () => {
     )
 }
 
-export default Invoice;
+export default Invoice
