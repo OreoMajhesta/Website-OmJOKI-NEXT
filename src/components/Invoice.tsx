@@ -90,10 +90,10 @@ const Invoice = () => {
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen py-12'>
-            <div className={`max-w-lg flex flex-col items-center col-1 ${isDarkTheme ? 'text-white' : 'text-black'} transition-all duration-500 p-6 rounded-lg shadow-xl max-w-2xl w-full`}>
+            <div className={`max-w-lg flex flex-col items-center col-1 ${isDarkTheme ? 'bg-black text-white' : 'bg- bg-white text-black'} transition-all duration-500 p-6 rounded-lg shadow-xl max-w-2xl w-full`}>
                 <h1 className="text-3xl font-bold mb-4">Invoice</h1>
                 <div className="w-full">
-                    <p>Invoice Number: {invoiceNumber}</p> {/* Display the invoice number */}
+                    <p>Invoice Number: {invoiceNumber}</p> 
                     <p>User ID: {userId}</p>
                     <p>Username: {username}</p>
                     <p>Region: {server}</p>
