@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react' // Import useEffect and useState
 import { useSearchParams } from 'next/navigation'
 import paymentMethods from '../../public/assets/data/PaymentMethod'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -21,6 +22,20 @@ const Invoice = () => {
     const selectedOption = searchParams.get('selectedOption') || ''
     const totalPriceWithFee = searchParams.get('totalPriceWithFee') || '0'
 
+    // State for invoice number
+    const [invoiceNumber, setInvoiceNumber] = useState('')
+
+    // Function to generate a random 10-digit invoice number
+    const generateInvoiceNumber = () => {
+        const randomNum = Math.floor(1000000000 + Math.random() * 9000000000).toString()
+        setInvoiceNumber(randomNum)
+    }
+
+    // Generate the invoice number when the component mounts
+    useEffect(() => {
+        generateInvoiceNumber()
+    }, [])
+
     interface Item {
         item: string
         price: string
@@ -39,6 +54,7 @@ const Invoice = () => {
 
     const sendToWhatsApp = () => {
         const message = `
+            Invoice Number: ${invoiceNumber}
             User ID: ${userId}
             Username: ${username}
             Region: ${server}
@@ -74,18 +90,19 @@ const Invoice = () => {
 
     return (
         <div className='flex flex-col items-center justify-center min-h-screen py-12'>
-            <div className={`flex flex-col items-center col-1 ${isDarkTheme ? 'bg-slate-800 text-white' : 'bg-white text-black'} transition-all duration-500 p-6 rounded-lg shadow-xl max-w-2xl w-full`}>
-                <h1 className="text-2xl font-bold mb-4">Invoice</h1>
+            <div className={`max-w-lg flex flex-col items-center col-1 ${isDarkTheme ? 'text-white' : 'text-black'} transition-all duration-500 p-6 rounded-lg shadow-xl max-w-2xl w-full`}>
+                <h1 className="text-3xl font-bold mb-4">Invoice</h1>
                 <div className="w-full">
+                    <p>Invoice Number: {invoiceNumber}</p> {/* Display the invoice number */}
                     <p>User ID: {userId}</p>
                     <p>Username: {username}</p>
                     <p>Region: {server}</p>
                     <p>Password: {password}</p>
                     <p>Note: &quot;{note}&quot;</p>
-                    <h2 className="mt-4 mb-2 font-semibold">==================================</h2>
+                    <h2 className="mt-4 mb-2 font-semibold">==========================</h2>
                     <h2 className="font-semibold">Paket yang Dipilih: </h2>
                     {selectedItems && selectedItems.length > 0 ? (
-                        <ul className="list-disc pl-5">
+                        <ul className="list-disc pl-5 max-w-lg">
                             {selectedItems.map((item: Item, index: number) => (
                                 <li key={index}>
                                     {item.item}: {item.price}
@@ -95,19 +112,19 @@ const Invoice = () => {
                     ) : (
                         <p>Tidak ada paket yang dipilih.</p>
                     )}
-                    <h2 className="mt-4 mb-2 font-semibold">==================================</h2>
+                    <h2 className="mt-4 mb-2 font-semibold">==========================</h2>
                     <h2 className="font-semibold">Metode Pembayaran:</h2>
                     {selectedMethods && selectedMethods.length > 0 ? (
-                        <ul className="list-disc pl-5">
+                        <ul>
                             {selectedMethods.map((methodId: string) => {
                                 const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
                                 if (method && method.options.some(option => option.name === selectedOption)) {
                                     return (
                                         <li key={method.id}>
                                             <strong>{method.name}</strong> - &quot;{method.description}&quot;
-                                            <h2 className="mt-2 mb-1 font-semibold">===================================</h2>
+                                            <h2 className="mt-2 mb-1 font-semibold">----------------------------------</h2>
                                             <h2 className="font-semibold">Penyedia Layanan:</h2>
-                                            <ul className="list-disc pl-5">
+                                            <ul >
                                                 {method.options
                                                     .filter(option => option.name === selectedOption)
                                                     .map(option => (
@@ -126,7 +143,7 @@ const Invoice = () => {
                     ) : (
                         <p>Tidak ada metode pembayaran yang dipilih.</p>
                     )}
-                    <h2 className="mt-4 mb-2 font-semibold">===================================</h2>
+                    <h2 className="mt-4 mb-2 font-semibold">==========================</h2>
                     <h2 className="font-semibold">Total: Rp {parseInt(totalPrice).toLocaleString('id-ID')}</h2>
                     <h2 className="font-semibold">Total dengan biaya admin: Rp {parseInt(totalPriceWithFee).toLocaleString('id-ID')}</h2>
                 </div>
