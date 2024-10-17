@@ -7,6 +7,7 @@ import Why from "../components/Why";
 import YoutubeLive from "../components/YoutubeLive";
 import { useTheme } from '../app/functions/ThemeContext';
 import Footer from "@/components/Footer";
+import ReviewForm from "@/components/ReviewForm";
 
 export default function HomePage() {
   const { isDarkTheme } = useTheme();
@@ -19,6 +20,7 @@ export default function HomePage() {
           <Why />
           <Testimonial />
           <YoutubeLive />
+          <ReviewForm />
         </div>
       </div>
       <Footer />
