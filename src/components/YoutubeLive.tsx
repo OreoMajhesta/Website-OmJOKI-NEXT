@@ -32,7 +32,6 @@ const YoutubeLive = () => {
                                         videoSrc={`https://www.youtube.com/embed/${videoId}`}
                                         thumbnailSrc={`https://img.youtube.com/vi/${videoId}/sddefault.jpg`}
                                         thumbnailAlt={`Thumbnail of video ${videoId}`}
-                                        title="Youtube Video"
                                     />
                                 )}
                             </div>

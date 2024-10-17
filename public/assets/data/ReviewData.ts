@@ -21,7 +21,7 @@ const reviewsdata = [
 		doneimg: "/reviews/3.webp",
 	},
 	{
-		name: "Sweetrabbit",
+		name: "Dude Game",
 		rating: 8.5,
 		body: "Mayan buat nabung primo👍",
 		profile: "https://avatar.vercel.sh/diana",
