@@ -22,7 +22,7 @@ const slides = [
 const CarouselBanner = () => {
     return (
         <section>
-            <div className="relative container mx-auto h-auto overflow-hidden shadow-xl rounded-3xl">
+            <div className="relative container mx-auto h-auto overflow-hidden shadow-xl rounded-none Hp:rounded-3xl">
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     navigation={{

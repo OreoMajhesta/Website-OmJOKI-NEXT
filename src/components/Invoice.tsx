@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react' // Import useEffect and useState
+import { useEffect, useState } from 'react' 
 import { useSearchParams } from 'next/navigation'
 import paymentMethods from '../../public/assets/data/PaymentMethod'
-import { FaWhatsapp } from 'react-icons/fa'
+import { FaCartArrowDown } from "react-icons/fa";
 import { useTheme } from '@/app/functions/ThemeContext'
 import Image from 'next/image'
 
@@ -22,16 +22,13 @@ const Invoice = () => {
     const selectedOption = searchParams.get('selectedOption') || ''
     const totalPriceWithFee = searchParams.get('totalPriceWithFee') || '0'
 
-    // State for invoice number
     const [invoiceNumber, setInvoiceNumber] = useState('')
 
-    // Function to generate a random 10-digit invoice number
     const generateInvoiceNumber = () => {
         const randomNum = Math.floor(1000000000 + Math.random() * 9000000000).toString()
         setInvoiceNumber(randomNum)
     }
 
-    // Generate the invoice number when the component mounts
     useEffect(() => {
         generateInvoiceNumber()
     }, [])
@@ -53,6 +50,13 @@ const Invoice = () => {
     }
 
     const sendToWhatsApp = () => {
+        const message = `Halo, saya tertarik untuk menggunakan jasa joki Anda. Berikut adalah nomor invoice saya: ${invoiceNumber}. Terima kasih.`    
+        const phoneNumber = '+6288216389495'
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+        window.open(url, '_blank')
+    }
+
+    const sendToTelegram = async () => {
         const message = `
             Invoice Number: ${invoiceNumber}
             User ID: ${userId}
@@ -60,32 +64,62 @@ const Invoice = () => {
             Region: ${server}
             Password: ${password}
             Note: "${note}"
-            ========================================
+            =====================================
             Paket yang Dipilih:
             ${selectedItems.map((item: Item) => {
             const price = parseInt(item.price.replace(/\D/g, ''), 10)
             return `- ${item.item}: Rp ${price.toLocaleString('id-ID')}`
         }).join('\n')}
-            ========================================
+            =====================================
             Metode Pembayaran:
             ${selectedMethods.map((methodId: string) => {
             const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
             return `${method?.name} - "${method?.description}"`
         }).join('\n')}
-            ========================================
+            =====================================
             Penyedia Layanan:
             ${selectedMethods.map((methodId: string) => {
             const method = paymentMethods.find((method: PaymentMethod) => method.id === methodId)
             const option = method?.options.find(opt => opt.name === selectedOption)
             return option ? `${option.name} - Biaya admin ${option.fee}%` : ''
         }).join('\n')}
-            ========================================
+            =====================================
             Total: Rp ${parseInt(totalPrice).toLocaleString('id-ID')}
             Total dengan biaya admin: Rp ${parseInt(totalPriceWithFee).toLocaleString('id-ID')}`.replace(/^\s+/gm, '')
-
-        const phoneNumber = '+6288216389495'
-        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
-        window.open(url, '_blank')
+    
+        const botToken = '8003150358:AAFWsdiIpRIg0JAmjLaWdscURiISP5TZ3mo' 
+        const chatId = '1948400876'      
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`
+    
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                }),
+            })
+    
+            const result = await response.json(); 
+            console.log(result);
+    
+            if (!response.ok) {
+                throw new Error('Failed to send message')
+            }
+    
+            alert('Invoice terkirim ke Telegram')
+        } catch (error) {
+            console.error('Error:', error)
+            alert('Gagal mengirim invoice ke Telegram')
+        }
+    } 
+    
+    const OrderNow = () => {
+        sendToWhatsApp();
+        sendToTelegram();
     }
 
     return (
@@ -93,7 +127,7 @@ const Invoice = () => {
             <div className={`max-w-lg flex flex-col items-center col-1 ${isDarkTheme ? 'bg-black text-white' : 'bg- bg-white text-black'} transition-all duration-500 p-6 rounded-lg shadow-xl max-w-2xl w-full`}>
                 <h1 className="text-3xl font-bold mb-4">Invoice</h1>
                 <div className="w-full">
-                    <p>Invoice Number: {invoiceNumber}</p> 
+                    <p>Invoice Number: {invoiceNumber}</p>
                     <p>User ID: {userId}</p>
                     <p>Username: {username}</p>
                     <p>Region: {server}</p>
@@ -129,7 +163,6 @@ const Invoice = () => {
                                                     .filter(option => option.name === selectedOption)
                                                     .map(option => (
                                                         <li key={option.name} className="flex items-center">
-                                                            <Image src={option.image} alt={option.name} width={50} height={50} className="mr-2" />
                                                             <span>{option.name} - Biaya admin {option.fee}%</span>
                                                         </li>
                                                     ))}
@@ -148,11 +181,11 @@ const Invoice = () => {
                     <h2 className="font-semibold">Total dengan biaya admin: Rp {parseInt(totalPriceWithFee).toLocaleString('id-ID')}</h2>
                 </div>
                 <button
-                    onClick={sendToWhatsApp}
-                    className="flex items-center w-full justify-center bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition duration-300 my-5"
+                    onClick={OrderNow}
+                    className="flex items-center w-full justify-center bg-sky-500 text-white text-xl py-3 px-6 rounded-lg hover:bg-sky-600 transition duration-300 my-5"
                 >
-                    <FaWhatsapp className="mr-2" />
-                    Kirim Invoice via WhatsApp
+                    <FaCartArrowDown className="mr-2" />
+                    Pesan Sekarang
                 </button>
             </div>
         </div>

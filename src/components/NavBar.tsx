@@ -73,21 +73,21 @@ const Navbar = () => {
                     <div className="flex items-center gap-x-5 lg:gap-x-10">
                         <ul className="hidden lg:flex items-center gap-x-5 lg:gap-x-10 font-normal">
                             <li>
-                                <Link href="/">
+                                <Link href="/" ria-label='Home'>
                                     <span className="text-md underline-offset-4 hover:underline lg:text-xl xl:text-2xl font-Poppins">
                                         Home
                                     </span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/pricelist">
+                                <Link href="/pricelist" aria-label='PriceList'>
                                     <span className="text-md underline-offset-4 hover:underline lg:text-xl xl:text-2xl font-Poppins font-b">
                                         Price List
                                     </span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/contact">
+                                <Link href="/contact" aria-label='Home'>
                                     <span className="text-md underline-offset-4 hover:underline lg:text-xl xl:text-2xl font-Poppins">
                                         Consultation
                                     </span>
@@ -106,21 +106,21 @@ const Navbar = () => {
             <div className={`fixed z-50 bottom-0 w-full lg:hidden transition-all duration-500 ${isDarkTheme ? 'bg-black text-white' : 'bg-white text-black'} border-t border-sky-500 dark:border-gray-700 pb-2`}>
                 <ul className="flex justify-around items-center font-normal">
                     <li>
-                        <Link href="/">
+                        <Link href="/" aria-label='Home'>
                             <span className="flex flex-col text-sm hover:bg-sky-500 font-Poppins items-center justify-center p-3 px-5 rounded-b-full">
                                 <icons.AiOutlineHome className='text-4xl hover:scale-110' />
                             </span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/pricelist">
+                        <Link href="/pricelist" aria-label='PriceList'>
                             <span className="flex flex-col text-sm hover:bg-sky-500 font-Poppins items-center justify-center p-3 px-5 rounded-b-full">
                                 <icons.AiOutlineTag className='text-4xl hover:scale-110' />
                             </span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/contact">
+                        <Link href="/contact" aria-label='Chat'>
                             <span className="flex flex-col text-sm hover:bg-sky-500 font-Poppins items-center justify-center p-3 px-5 rounded-b-full">
                                 <icons.BsChat className='text-4xl hover:scale-110' />
                             </span>

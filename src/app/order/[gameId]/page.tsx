@@ -13,7 +13,7 @@ export default function OrderPage() {
 
    return (
       <div className={`transition-colors duration-500 ${isDarkTheme ? 'bg-slate-950 text-white' : 'bg-slate-100 text-black'}`}>
-         <div className="px-4 sm:px-4 top-20 pt-28">
+         <div className="px-2 sm:px-4 top-20 pt-28">
             <Order gamesData={gamesdata} gameId={gameId} />
          </div>
          <Footer />
