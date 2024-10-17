@@ -50,7 +50,7 @@ const Invoice = () => {
 
     const sendToWhatsApp = () => {
         const message = `Halo, saya tertarik untuk menggunakan jasa joki Anda. Berikut adalah nomor invoice saya: ${invoiceNumber}. Terima kasih.`    
-        const phoneNumber = process.env.PHONE_NUMBER
+        const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
         window.open(url, '_blank')
     }
@@ -86,8 +86,8 @@ const Invoice = () => {
             Total: Rp ${parseInt(totalPrice).toLocaleString('id-ID')}
             Total dengan biaya admin: Rp ${parseInt(totalPriceWithFee).toLocaleString('id-ID')}`.replace(/^\s+/gm, '')
     
-        const botToken = process.env.BOT_TELEGRAM_TOKEN
-        const chatId = process.env.CHAT_ID     
+        const botToken = process.env.NEXT_PUBLIC_BOT_TELEGRAM_TOKEN
+        const chatId = process.env.NEXT_PUBLIC_CHAT_ID     
         const url = `https://api.telegram.org/bot${botToken}/sendMessage`
     
         try {
