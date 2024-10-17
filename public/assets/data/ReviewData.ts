@@ -22,7 +22,7 @@ const reviewsdata = [
 	},
 	{
 		name: "Dude Game",
-		rating: 8.5,
+		rating: 9,
 		body: "Mayan buat nabung primo👍",
 		profile: "https://avatar.vercel.sh/diana",
 		doneimg: "/reviews/4.webp",

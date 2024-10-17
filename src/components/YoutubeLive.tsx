@@ -11,6 +11,7 @@ const videos = [
     'https://www.youtube.com/live/ZHZuId6Hdrw?feature=shared',
     'https://www.youtube.com/live/-S6ImxIia_A?feature=shared',
     'https://www.youtube.com/live/uDsCM36qMA0?feature=shared',
+    'https://www.youtube.com/live/7RcPpYjJeA8?feature=shared',
 ];
 
 const YoutubeLive = () => {
