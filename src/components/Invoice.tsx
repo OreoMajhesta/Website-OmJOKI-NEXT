@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import paymentMethods from '../../public/assets/data/PaymentMethod'
 import { FaCartArrowDown } from "react-icons/fa";
 import { useTheme } from '@/app/functions/ThemeContext'
-import Image from 'next/image'
 
 const Invoice = () => {
     const searchParams = useSearchParams()
